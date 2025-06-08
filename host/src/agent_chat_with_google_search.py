@@ -40,7 +40,12 @@ RAW_CONFIG: Dict[str, dict] = {
     "fetch": {"command": "uvx", "args": ["mcp-server-fetch"]},
     "google_search": {
         "command": "uv",
-        "args": ["--directory", "/path/to/your/project/servers/src", "run", "server_google_search.py"],
+        "args": [
+            "--directory",
+            "/path/to/your/project/servers/src",
+            "run",
+            "server_google_search.py",
+        ],
     },
 }
 
@@ -75,13 +80,19 @@ def mcp_tool_to_openai_tool(tool: Tool, server_name: str) -> dict:
     }
 
 
-async def init_servers(stack: AsyncExitStack, servers: Dict[str, MCPServer]) -> List[dict]:
+async def init_servers(
+    stack: AsyncExitStack, servers: Dict[str, MCPServer]
+) -> List[dict]:
     """Launch all MCP servers and aggregate their tools in OpenAI format."""
     openai_tools: List[dict] = []
 
     for server in servers.values():
         read, write = await stack.enter_async_context(
-            stdio_client(StdioServerParameters(command=server.command, args=server.args, env=server.env))
+            stdio_client(
+                StdioServerParameters(
+                    command=server.command, args=server.args, env=server.env
+                )
+            )
         )
         server.session = await stack.enter_async_context(ClientSession(read, write))
         await server.session.initialize()
@@ -95,7 +106,9 @@ async def init_servers(stack: AsyncExitStack, servers: Dict[str, MCPServer]) -> 
     return openai_tools
 
 
-async def dispatch_tool_call(tool_call: ResponseFunctionToolCall, servers: Dict[str, MCPServer]) -> str:
+async def dispatch_tool_call(
+    tool_call: ResponseFunctionToolCall, servers: Dict[str, MCPServer]
+) -> str:
     """Execute the requested MCP tool and return its string output."""
     args = json.loads(tool_call.arguments)
     server_name, tool_name = tool_call.name.split(TOOL_SEPARATOR)

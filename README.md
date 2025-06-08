@@ -9,9 +9,6 @@
 1. **agent_chat_with_google_search.py**
    * mcpサーバのfetchと、google searchを基に回答するcli基盤のチャット
 
-2. **agent_company_analyze.py**
-   * 日本の企業を分析するAIエージェント。必要情報が揃うまでにループするので注意が必要。少しバグあり
-
 ### MCPサーバー
 
 1. **server_google_search.py**
@@ -86,11 +83,6 @@ RAW_CONFIG: Dict[str, dict] = {
 uv --directory "/path/to/your/project/host/src" run agent_chat_with_google_search.py
 ```
 
-### 企業分析エージェントの実行
-
-```bash
-uv --directory "/path/to/your/project/host/src" run agent_company_analyze.py
-```
 
 **重要**: 上記のコマンドを実行する前に、エージェントファイル内のMCPサーバー設定パス（RAW_CONFIG内の`--directory`引数）を、あなたの環境に合わせて修正してください。
 
