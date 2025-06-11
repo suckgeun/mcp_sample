@@ -80,7 +80,7 @@ RAW_CONFIG: Dict[str, dict] = {
 ### Google検索チャットボットの実行
 
 ```bash
-uv --directory "/path/to/your/project/host/src" run agent_chat_with_google_search.py
+uv --directory "/path/to/your/project/host/src" run mcp_host_tutorial_openai.py
 ```
 
 
